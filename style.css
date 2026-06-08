@@ -1067,10 +1067,6 @@ footer {
     border-top: 1px solid rgba(255,255,255,0.1);
     padding: 25px;
 
-/* background: rgba(59, 130, 246, 0.25); */
-   /* background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(15px);
-   box-shadow: 0 4px 8px rgba(5, 56, 225, 0.75); */
 }
 footer p {
   color: #ffffff;
