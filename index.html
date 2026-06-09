@@ -286,12 +286,84 @@ emailjs.init("kA70bX76mQJ9iLCOM");
 
 const form = document.getElementById("contact-form");
 const status = document.getElementById("status");
+const button = form.querySelector("button");
+
+function validateForm(name, email, message) {
+    const nameRegex = /^[a-zA-Z\s]{2,50}$/;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!nameRegex.test(name)) {
+        return "❌ Name should only contain letters (no numbers/symbols).";
+    }
+
+    if (!emailRegex.test(email)) {
+        return "❌ Please enter a valid email address.";
+    }
+
+    if (message.trim().length < 10) {
+        return "❌ Message must be at least 10 characters long.";
+    }
+
+    return null;
+}
+
+form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    const error = validateForm(name, email, message);
+
+    if (error) {
+        status.textContent = error;
+        status.style.color = "red";
+        return;
+    }
+
+    // 🚀 Disable button (prevent spam clicks)
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    status.textContent = "Sending message...";
+    status.style.color = "white";
+
+    emailjs.sendForm("service_clxkgif", "template_rd720xp", form)
+        .then(() => {
+            status.textContent = "✅ Thanks! I’ll get back to you soon 🚀";
+            status.style.color = "lightgreen";
+
+            form.reset();
+        })
+        .catch((error) => {
+            console.log(error);
+
+            status.textContent = "❌ Failed to send message. Please try again.";
+            status.style.color = "red";
+        })
+        .finally(() => {
+            // 🔓 Re-enable button always (success or fail)
+            button.disabled = false;
+            button.textContent = "Send Message";
+
+            // auto clear message
+            setTimeout(() => {
+                status.textContent = "";
+            }, 5000);
+        });
+});
+</script>
+<!-- <script>
+emailjs.init();
+
+const form = document.getElementById("contact-form");
+const status = document.getElementById("status");
 
 form.addEventListener("submit", function (e) {
     e.preventDefault();
 emailjs.sendForm(
-   "service_clxkgif",
-    "template_rd720xp",
+   
     form
 )
 .then(() => {
@@ -315,7 +387,9 @@ emailjs.sendForm(
     console.log(error);
 });
 });
-</script>
+</script> -->
 
 </body>
-</html>
+<!-- </html> "service_clxkgif",
+    "template_rd720xp", -->
+    <!-- "kA70bX76mQJ9iLCOM" -->
